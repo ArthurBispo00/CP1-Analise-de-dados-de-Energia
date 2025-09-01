@@ -1,53 +1,57 @@
-# ⚡ Análise de Dados de Consumo de Energia Residencial
+# ⚡ Análise de Dados e Machine Learning para Consumo de Energia
 
-> Este repositório contém uma análise exploratória de dados e a aplicação de técnicas de machine learning em um conjunto de dados de consumo de energia de uma única residência durante quatro anos. O objetivo é extrair padrões, entender o comportamento do consumo e aplicar modelos preditivos e de segmentação.
+> Este repositório contém a análise completa de dois datasets sobre consumo de energia, desenvolvida como parte do Checkpoint de Data Science e Machine Learning. O projeto abrange desde a limpeza e análise exploratória de dados até a aplicação de técnicas avançadas de machine learning e visualização interativa.
 
-Este projeto foi desenvolvido como parte do Checkpoint de Data Science e Machine Learning.
+## 📊 Datasets Utilizados
 
-## 📊 Dataset
+1.  **Individual Household Electric Power Consumption**
+    * **Fonte:** [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/235/individual+household+electric+power+consumption)
+    * **Descrição:** Medições de consumo elétrico a cada minuto de uma única residência por quatro anos.
 
-O conjunto de dados utilizado é o **"Individual Household Electric Power Consumption"**, disponível publicamente no Repositório de Machine Learning da UCI.
-
-- **Fonte:** [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/235/individual+household+electric+power+consumption)
-- **Período:** Dezembro de 2006 a Novembro de 2010.
-- **Frequência:** Medições a cada minuto.
+2.  **Appliances Energy Prediction**
+    * **Fonte:** [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/374/appliances+energy+prediction)
+    * **Descrição:** Consumo de energia de eletrodomésticos e dados de sensores de temperatura e umidade.
 
 ## 🚀 Análise Realizada
 
-O notebook `analise_consumo_energia.ipynb` está dividido em duas partes principais:
+A análise foi dividida em quatro partes principais:
 
-### Parte 1: Análise Exploratória e Pré-processamento
+### Parte 1 & 2: Análise Profunda do Consumo Residencial (Python)
 
-Nesta seção, realizamos a preparação e a primeira exploração dos dados para extrair insights iniciais.
-- **Limpeza de Dados:** Carregamento do dataset, tratamento de valores ausentes e conversão de tipos de dados (datas e horas).
-- **Engenharia de Features:** Criação de novas colunas como `day_of_week` (dia da semana) e `Total_Sub_metering` (soma do consumo medido).
-- **Análise de Consumo:** Cálculo de médias diárias e mensais, e identificação do dia de maior consumo.
-- **Análise Comparativa:** Comparação do consumo médio entre dias de semana vs. finais de semana e entre inverno vs. verão.
-- **Visualização de Dados:** Geração de gráficos de linha, histogramas e séries temporais para visualizar a distribuição e o comportamento de variáveis como `Global_active_power` e `Voltage`.
-- **Análise de Correlação:** Criação de uma matriz de correlação e um heatmap para entender a relação entre as variáveis elétricas.
-- **Introdução ao Machine Learning:**
-  - Aplicação de **K-Means** para uma primeira segmentação de dias por perfil de consumo.
-  - Treinamento de um modelo de **Regressão Linear Simples** para prever `Global_active_power` a partir de `Global_intensity`.
+No notebook `analise_consumo_energia.ipynb`, realizamos uma exploração completa do primeiro dataset:
+- **Análise Exploratória (EDA):** Limpeza de dados, tratamento de valores ausentes, visualização de padrões diários, mensais e sazonais (inverno vs. verão).
+- **Engenharia de Features:** Criação de novas variáveis para enriquecer a análise.
+- **Análise de Séries Temporais:** Uso de reamostragem e autocorrelação (ACF) para confirmar estatisticamente os ciclos diários de consumo.
+- **Machine Learning (Não Supervisionado):**
+  - **K-Means:** Para segmentar os dias em 3 perfis distintos (consumo baixo, médio e alto).
+  - **PCA:** Para reduzir 4 dimensões elétricas para 2, visualizando a separação dos clusters.
+- **Modelagem Preditiva:** Comparação entre Regressão Linear e Polinomial.
 
-### Parte 2: Tópicos Avançados e Modelagem
+### Parte 3: Modelagem Preditiva de Consumo de Eletrodomésticos (Python)
 
-Nesta segunda parte, aprofundamos a análise com técnicas mais avançadas.
-- **Análise de Séries Temporais:** Reamostragem dos dados por hora para identificar os horários de pico de consumo ao longo de um dia típico.
-- **Autocorrelação (ACF):** Análise da autocorrelação da série horária para confirmar estatisticamente a existência de padrões diários (sazonalidade de 24 horas).
-- **Redução de Dimensionalidade (PCA):** Aplicação do PCA para reduzir 4 variáveis elétricas para 2 componentes principais, mantendo mais de 80% da informação original.
-- **Visualização de Clusters:** Projeção dos clusters do K-Means no espaço 2D criado pelo PCA para visualizar a separação dos grupos.
-- **Comparação de Modelos:** Treinamento e comparação de uma **Regressão Linear Simples** vs. uma **Regressão Polinomial** para modelar a relação entre `Voltage` e `Global_active_power`, analisando o erro (RMSE) e o ajuste das curvas.
+Ainda no mesmo notebook, focamos no segundo dataset para prever o consumo:
+- **Análise de Correlação:** Investigamos a relação entre fatores ambientais (temperatura, umidade) e o consumo, concluindo que a correlação é fraca.
+- **Modelagem de Regressão:** Comparamos a performance de uma **Regressão Linear Múltipla** (R² de 17%) com um **Random Forest Regressor**, que se mostrou muito superior por capturar relações não-lineares.
+- **Modelagem de Classificação:** Transformamos o problema para prever "consumo alto vs. baixo". O **Random Forest Classifier** alcançou uma **acurácia de 90%**, mostrando-se um modelo robusto e equilibrado na análise da matriz de confusão.
+
+### Parte 4: Análise Visual com Orange Data Mining
+
+Utilizamos a ferramenta visual Orange Data Mining para replicar etapas chave da análise de forma interativa e sem código:
+- **Fluxo Visual:** Construímos um pipeline usando widgets para importar, amostrar, visualizar distribuições, criar gráficos de dispersão e aplicar clustering.
+- **Validação Visual:** Confirmamos visualmente os padrões encontrados no Python, como a distribuição assimétrica do consumo e a falta de correlação entre voltagem e corrente.
+- **Clustering Interativo:** Aplicamos K-Means sobre os sub-medidores, identificando e visualizando claramente os diferentes perfis de uso dos eletrodomésticos (ex: "repouso", "cozinha ativa", "climatização ativa").
 
 ## 💡 Principais Insights
 
-- O consumo de energia é **maior durante o inverno** e nos **períodos da noite** (entre 19h e 22h).
-- Existe um **padrão diário e semanal** muito forte e repetitivo no consumo.
-- A variável `Global_intensity` é uma previsora quase perfeita para `Global_active_power`, confirmando a lei da física elétrica.
-- A **voltagem (`Voltage`) da rede é muito estável** e não serve como uma boa variável para prever o consumo de energia.
-- Os dias podem ser agrupados com sucesso em 3 perfis de consumo: **Baixo, Médio e Alto**.
+- O consumo de energia residencial possui fortes **padrões diários, semanais e sazonais**.
+- A correlação entre **potência ativa e corrente elétrica é quase perfeita**, como esperado pela física.
+- Fatores ambientais (temperatura, umidade) são **preditores fracos** para o consumo de eletrodomésticos, que é mais influenciado pelo **comportamento humano**.
+- Modelos não-lineares como o **Random Forest são drasticamente superiores** para modelar relações complexas, alcançando **90% de acurácia** na tarefa de classificação.
+- Ferramentas visuais como o **Orange Data Mining** são excelentes para validar rapidamente as hipóteses levantadas na análise via código.
 
 ## 🛠️ Ferramentas Utilizadas
 
 - **Linguagem:** Python 3
 - **Bibliotecas Principais:** Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn, Statsmodels.
-- **Ambiente:** Google Colab.
+- **Ambiente de Desenvolvimento:** Google Colab.
+- **Ferramenta de Análise Visual:** Orange Data Mining.
