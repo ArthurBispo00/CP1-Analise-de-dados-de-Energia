@@ -2,6 +2,11 @@
 
 > Este repositório contém a análise completa de dois datasets sobre consumo de energia, desenvolvida como parte do Checkpoint de Data Science e Machine Learning. O projeto abrange desde a limpeza e análise exploratória de dados até a aplicação de técnicas avançadas de machine learning e visualização interativa.
 
+## 👨‍💻 Integrantes
+
+- Arthur Bispo de Lima - RM:557568
+- João Paulo Moreira dos Santos RM:557808
+  
 ## 📊 Datasets Utilizados
 
 1.  **Individual Household Electric Power Consumption**
